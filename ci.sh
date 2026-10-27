@@ -9,21 +9,17 @@ log() {
 }
 
 run_pipeline() {
-    log "Démarrage du pipeline CI pour $REPO_URL..."
-    
-    log "Étape 1: Mettre à jour / cloner le dépôt..."
+    log "Mise a jour du depot $REPO_URL..."
     git pull origin main || true
 
-    log "Étape 2: Exécution des tests..."
+    log "Execution des tests..."
     if [ -f "check_disk.sh" ] && [ -f "backup.sh" ]; then
-        log "Test réussi: Tous les scripts requis sont présents."
+        log "Tests OK"
+        exit 0
     else
-        log "Test échoué: Des scripts sont manquants." >&2
+        log "Tests Failed" >&2
         exit 1
     fi
-
-    log "Pipeline CI terminé avec succès."
-    exit 0
 }
 
 run_pipeline
